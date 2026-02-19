@@ -173,22 +173,28 @@ def processwithcomments(caption, instream, outstream, listingslang):
             out.append(r"\leftcaption{%s}" % pathescape(", ".join(includelist)))
         if nsource:
             out.append(r"\rightcaption{%s%d lines}" % (hsh, len(nsource.split("\n"))))
-        langstr = ", language="+listingslang
-        out.append(r"\begin{lstlisting}[caption={%s}%s]" % (pathescape(caption), langstr))
+        out.append(r"\begin{code}")
+        out.append(r"\captionof{listing}{%s}" % (pathescape(caption)))
+        out.append(r"\begin{minted}{%s}" % (listingslang))
         out.append(nsource)
-        out.append(r"\end{lstlisting}")
+        out.append(r"\end{minted}")
+        out.append(r"\end{code}")
+        
 
     for line in out:
         print(line, file=outstream)
 
-def processraw(caption, instream, outstream, listingslang = 'raw'):
+def processraw(caption, instream, outstream, listingslang = 'text'):
     try:
         source = instream.read().strip()
         addref(caption, outstream)
         print(r"\rightcaption{%d lines}" % len(source.split("\n")), file=outstream)
-        print(r"\begin{lstlisting}[language=%s,caption={%s}]" % (listingslang, pathescape(caption)), file=outstream)
+        print(r"\begin{code}",file=outstream)
+        print(r"\captionof{listing}{%s}" % (pathescape(caption)),file=outstream)
+        print(r"\begin{minted}{%s}" % (listingslang), file=outstream)
         print(source, file=outstream)
-        print(r"\end{lstlisting}", file=outstream)
+        print(r"\end{minted}", file=outstream)
+        print(r"\end{code}",file=outstream)
     except:
         print(r"\kactlerror{Could not read source.}", file=outstream)
 
@@ -274,7 +280,7 @@ def main():
             processwithcomments(caption, instream, outstream, 'Java')
         elif language == "ps":
             processraw(caption, instream, outstream) # PostScript was added in listings v1.4
-        elif language == "raw":
+        elif language == "text":
             processraw(caption, instream, outstream)
         elif language == "rawcpp":
             processraw(caption, instream, outstream, 'C++')
