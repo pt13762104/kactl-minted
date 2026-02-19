@@ -18,7 +18,6 @@ If you feel that something is missing, could be cleaned up, or notice a bug, ple
 While KACTL is usable as is, it's also easy to modify if you want to create a personalized copy.
 In particular, you may want to change the cover page, or make your own choice of algorithms to include --
 due to space concerns, not all algorithms in the repo are included in the pdf.
-You may also want to enable colored syntax highlighting.
 
 `content/kactl.tex` is the main file of KACTL, and can be edited to change team name, logo, syntax highlighting, etc.
 It imports `chapter.tex` files from each of the `content/` subdirectories, which define the contents of each chapter.
